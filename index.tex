@@ -190,7 +190,7 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, enhanced, sharp corners, frame hidden, boxrule=0pt, interior hidden, breakable]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, enhanced, breakable, sharp corners, frame hidden]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -203,6 +203,15 @@
 \hypertarget{welcome}{%
 \chapter*{Welcome}\label{welcome}}
 \addcontentsline{toc}{chapter}{Welcome}
+
+Welcome to
+\href{https://donotdespair.github.io/exercises-in-macroeconometrics/}{Exercises
+in Macroeconometrics}!
+
+This online book has been developed as lecture notes for a subject
+taught at the University of Melbourne, namely,
+\href{https://handbook.unimelb.edu.au/2022/subjects/ecom90007}{Macroeconometrics
+ECOM90007}.
 
 \hypertarget{whats-macroeconometrics}{%
 \section*{What's Macroeconometrics}\label{whats-macroeconometrics}}
@@ -222,15 +231,6 @@ that facilitate performing reproducible econometric analyses in
 \href{https://cran.r-project.org/}{R},
 \href{https://quarto.org/}{Quarto}, \href{https://git-scm.com/}{git},
 and \href{https://GitHub.com/}{GitHub}.
-
-\hypertarget{online-book}{%
-\section*{Online book}\label{online-book}}
-\addcontentsline{toc}{section}{Online book}
-
-This online book has been developed as lecture notes for a subject
-taught at the University of Melbourne, namely,
-\href{https://handbook.unimelb.edu.au/2022/subjects/ecom90007}{Macroeconometrics
-ECOM90007}.
 
 \hypertarget{invitation-to-collaboration}{%
 \section*{Invitation to
@@ -1179,8 +1179,8 @@ does not find empirical support.
 
 \begin{verbatim}
        [,1]   [,2]  [,3]
-[1,] 0.0016 0.9996 4e-03
-[2,] 0.0557 0.0223 4e-04
+[1,] 0.0002 1.0002 4e-03
+[2,] 0.0562 0.0225 4e-04
 \end{verbatim}
 
 \begin{Shaded}
@@ -1194,8 +1194,8 @@ does not find empirical support.
 
 \begin{verbatim}
        [,1]    [,2]   [,3]
-[1,] 0.2886 -0.0630 0.1548
-[2,] 0.0302  0.0627 0.0140
+[1,] 0.2878 -0.0620 0.1548
+[2,] 0.0299  0.0632 0.0139
 \end{verbatim}
 
 The autoregressive slope parameter for the model for the quarterly
@@ -1237,7 +1237,7 @@ log-returns.
 \end{Shaded}
 
 \begin{verbatim}
-[1] 0.4907
+[1] 0.5007
 \end{verbatim}
 
 \begin{Shaded}

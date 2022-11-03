@@ -540,17 +540,17 @@ p\left(A|Y,X\right) &amp;= t\left( \overline{A}, \overline{V}, \overline{s}, \ov
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>),<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       [,1]   [,2]  [,3]
-[1,] 0.0007 1.0000 4e-03
-[2,] 0.0561 0.0224 4e-04</code></pre>
+[1,] 0.0006 1.0000 4e-03
+[2,] 0.0562 0.0225 4e-04</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(posterior.draws.r,<span class="dv">2</span>,mean),</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(posterior.draws.r,<span class="dv">2</span>,sd)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>),<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       [,1]    [,2]   [,3]
-[1,] 0.2885 -0.0632 0.1545
-[2,] 0.0303  0.0629 0.0140</code></pre>
+<pre><code>      [,1]    [,2]   [,3]
+[1,] 0.289 -0.0628 0.1548
+[2,] 0.030  0.0631 0.0139</code></pre>
 </div>
 </div>
 <p>The autoregressive slope parameter for the model for the quarterly annualized log-returns has the posterior distribution concentrated near value zero with the posterior mean equal to -0.063 and the posterior standard deviation equal to 0.07. Therefore, this variable is clearly stationary, mean-reverting, and the average quarterly annualized log-return has value around 3.6 pp.</p>
@@ -564,7 +564,7 @@ p\left(A|Y,X\right) &amp;= t\left( \overline{A}, \overline{V}, \overline{s}, \ov
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(posterior.draws.y[,<span class="dv">2</span>]<span class="sc">&gt;</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4976</code></pre>
+<pre><code>[1] 0.495</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(posterior.draws.r[,<span class="dv">2</span>]<span class="sc">&gt;</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
