@@ -293,7 +293,7 @@ ar1.posterior.draws = function(S,posterior){
 
 
 
-### Exercise 4.1. {.unnumbered}
+### Exercise 4.1. GDP growth properties {.unnumbered}
 
 > Upload the data to the memory of R and transform it into a matrix with one column containing the natural logarithm of the original series. Transform this matrix into a \texttt{ts} object and specify the time stamps for the observations. Create a new \texttt{ts} object containing the annualized log-returns expressed in percentage points of the series using the following transformation: $r_t = 400(rgdp_t - rgdp_{t-1})$, where $rgdp_t$ is the logarithm of the original time series. Plot both of the series in time series plots. Create autocorrelations graphs at lags from 1 to 20 for the both of the series. Interpret the content from the four graphs and discuss the evidence of what properties of the time series they include.
 
@@ -322,7 +322,7 @@ Time series of annualized log-returns of the real GDP, $r_t = 400\Delta rgdp_t$,
 
 
 
-## Exercise 4.2. {.unnumbered}
+### Exercise 4.2. Estimation results {.unnumbered}
 
 > Set the parameters of the natural-conjugate prior distribution and motivate the values that you choose. Use the computer codes you developed in \textbf{Exercise 3.} to estimate the AR(1) model with a constant term for each of the series. Use the obtained draws from the posterior density to:
 >
@@ -392,7 +392,7 @@ round(rbind(
 The autoregressive slope parameter for the model for the quarterly annualized log-returns has the posterior distribution concentrated near value zero with the posterior mean equal to -0.063 and the posterior standard deviation equal to 0.07. Therefore, this variable is clearly stationary, mean-reverting, and the average quarterly annualized log-return has value around 3.6 pp.
 
 
-### Exercise 4.3.  {.unnumbered}
+### Exercise 4.3. Unit root testing {.unnumbered}
 
 > Compute the fraction of the posterior draws of parameter $\alpha_1$ that are greater than 1 for both of the models. Confront these results with the histograms, posterior means and standard deviations of $\alpha_1$ for both of the models, and interpret these results. Comment on the Bayesian evidence in favour of the unit root hypothesis for each of the time series. Comment on the interpretations of the values of the constant term in both of the models in the context of your statements on unit-root stationarity of the considered time series.
 

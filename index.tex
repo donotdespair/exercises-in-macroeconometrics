@@ -190,7 +190,7 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, enhanced, borderline west={3pt}{0pt}{shadecolor}, frame hidden, breakable, sharp corners, boxrule=0pt]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, enhanced, sharp corners, frame hidden, boxrule=0pt, interior hidden, breakable]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -968,9 +968,10 @@ the last quarter of 2016 can be downloaded by clicking
 \href{https://unimelbcloud-my.sharepoint.com/:x:/g/personal/tomasz_wozniak_unimelb_edu_au/EUGgK79jyPBLoglnoVq75lEBI5k7TB7bEXFCemLDWnqyCg?e=9C8wHr}{HERE}.
 \end{quote}
 
-\hypertarget{exercise-4.1.}{%
-\subsection*{Exercise 4.1.}\label{exercise-4.1.}}
-\addcontentsline{toc}{subsection}{Exercise 4.1.}
+\hypertarget{exercise-4.1.-gdp-growth-properties}{%
+\subsection*{Exercise 4.1. GDP growth
+properties}\label{exercise-4.1.-gdp-growth-properties}}
+\addcontentsline{toc}{subsection}{Exercise 4.1. GDP growth properties}
 
 \begin{quote}
 Upload the data to the memory of R and transform it into a matrix with
@@ -1053,9 +1054,10 @@ the variable \(rgdp_t\) is intgrated of order 1. Finally, the time
 series plot of the log-returns indicates higher volatility throughout
 the half of the sample period than in the second one.
 
-\hypertarget{exercise-4.2.}{%
-\section*{Exercise 4.2.}\label{exercise-4.2.}}
-\addcontentsline{toc}{section}{Exercise 4.2.}
+\hypertarget{exercise-4.2.-estimation-results}{%
+\subsection*{Exercise 4.2. Estimation
+results}\label{exercise-4.2.-estimation-results}}
+\addcontentsline{toc}{subsection}{Exercise 4.2. Estimation results}
 
 \begin{quote}
 Set the parameters of the natural-conjugate prior distribution and
@@ -1176,9 +1178,9 @@ does not find empirical support.
 \end{Shaded}
 
 \begin{verbatim}
-        [,1]   [,2]  [,3]
-[1,] -0.0003 1.0004 4e-03
-[2,]  0.0565 0.0226 4e-04
+       [,1]   [,2]  [,3]
+[1,] 0.0016 0.9996 4e-03
+[2,] 0.0557 0.0223 4e-04
 \end{verbatim}
 
 \begin{Shaded}
@@ -1192,8 +1194,8 @@ does not find empirical support.
 
 \begin{verbatim}
        [,1]    [,2]   [,3]
-[1,] 0.2881 -0.0629 0.1548
-[2,] 0.0304  0.0627 0.0139
+[1,] 0.2886 -0.0630 0.1548
+[2,] 0.0302  0.0627 0.0140
 \end{verbatim}
 
 The autoregressive slope parameter for the model for the quarterly
@@ -1203,9 +1205,10 @@ standard deviation equal to 0.07. Therefore, this variable is clearly
 stationary, mean-reverting, and the average quarterly annualized
 log-return has value around 3.6 pp.
 
-\hypertarget{exercise-4.3.}{%
-\subsection*{Exercise 4.3.}\label{exercise-4.3.}}
-\addcontentsline{toc}{subsection}{Exercise 4.3.}
+\hypertarget{exercise-4.3.-unit-root-testing}{%
+\subsection*{Exercise 4.3. Unit root
+testing}\label{exercise-4.3.-unit-root-testing}}
+\addcontentsline{toc}{subsection}{Exercise 4.3. Unit root testing}
 
 \begin{quote}
 Compute the fraction of the posterior draws of parameter \(\alpha_1\)
@@ -1234,7 +1237,7 @@ log-returns.
 \end{Shaded}
 
 \begin{verbatim}
-[1] 0.5063
+[1] 0.4907
 \end{verbatim}
 
 \begin{Shaded}

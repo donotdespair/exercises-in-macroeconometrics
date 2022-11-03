@@ -199,11 +199,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#exercise-4-empirical-analysis-of-australian-real-gross-domestic-product" id="toc-exercise-4-empirical-analysis-of-australian-real-gross-domestic-product" class="nav-link" data-scroll-target="#exercise-4-empirical-analysis-of-australian-real-gross-domestic-product">Exercise 4: Empirical analysis of Australian real Gross Domestic Product</a>
   <ul class="collapse">
-  <li><a href="#exercise-4.1." id="toc-exercise-4.1." class="nav-link" data-scroll-target="#exercise-4.1.">Exercise 4.1.</a></li>
-  </ul></li>
-  <li><a href="#exercise-4.2." id="toc-exercise-4.2." class="nav-link" data-scroll-target="#exercise-4.2.">Exercise 4.2.</a>
-  <ul class="collapse">
-  <li><a href="#exercise-4.3." id="toc-exercise-4.3." class="nav-link" data-scroll-target="#exercise-4.3.">Exercise 4.3.</a></li>
+  <li><a href="#exercise-4.1.-gdp-growth-properties" id="toc-exercise-4.1.-gdp-growth-properties" class="nav-link" data-scroll-target="#exercise-4.1.-gdp-growth-properties">Exercise 4.1. GDP growth properties</a></li>
+  <li><a href="#exercise-4.2.-estimation-results" id="toc-exercise-4.2.-estimation-results" class="nav-link" data-scroll-target="#exercise-4.2.-estimation-results">Exercise 4.2. Estimation results</a></li>
+  <li><a href="#exercise-4.3.-unit-root-testing" id="toc-exercise-4.3.-unit-root-testing" class="nav-link" data-scroll-target="#exercise-4.3.-unit-root-testing">Exercise 4.3. Unit root testing</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -438,8 +436,8 @@ p\left(A|Y,X\right) &amp;= t\left( \overline{A}, \overline{V}, \overline{s}, \ov
 <blockquote class="blockquote">
 <p>Consider a time series for Australian real GDP downloaded from the Australian Real-Time Macroeconomic Database that was analysed during . A csv file containing <span class="math inline">\(T=230\)</span> observations on the quarterly data from quarter 3 of 1959 to the last quarter of 2016 can be downloaded by clicking .</p>
 </blockquote>
-<section id="exercise-4.1." class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="exercise-4.1.">Exercise 4.1.</h3>
+<section id="exercise-4.1.-gdp-growth-properties" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-4.1.-gdp-growth-properties">Exercise 4.1. GDP growth properties</h3>
 <blockquote class="blockquote">
 <p>Upload the data to the memory of R and transform it into a matrix with one column containing the natural logarithm of the original series. Transform this matrix into a object and specify the time stamps for the observations. Create a new object containing the annualized log-returns expressed in percentage points of the series using the following transformation: <span class="math inline">\(r_t = 400(rgdp_t - rgdp_{t-1})\)</span>, where <span class="math inline">\(rgdp_t\)</span> is the logarithm of the original time series. Plot both of the series in time series plots. Create autocorrelations graphs at lags from 1 to 20 for the both of the series. Interpret the content from the four graphs and discuss the evidence of what properties of the time series they include.</p>
 </blockquote>
@@ -478,9 +476,8 @@ p\left(A|Y,X\right) &amp;= t\left( \overline{A}, \overline{V}, \overline{s}, \ov
 </div>
 <p>Time series of annualized log-returns of the real GDP, <span class="math inline">\(r_t = 400\Delta rgdp_t\)</span>, has very different properties. It is visible in the data plot that the series oscillates around a positive constant value. This fact, together with the evidence of hardly any serial correlation from the autocorrelogram allows us to conclude that these log returns are unit-root stationary series. Therefore, it seems that the variable <span class="math inline">\(rgdp_t\)</span> is intgrated of order 1. Finally, the time series plot of the log-returns indicates higher volatility throughout the half of the sample period than in the second one.</p>
 </section>
-</section>
-<section id="exercise-4.2." class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="exercise-4.2.">Exercise 4.2.</h2>
+<section id="exercise-4.2.-estimation-results" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-4.2.-estimation-results">Exercise 4.2. Estimation results</h3>
 <blockquote class="blockquote">
 <p>Set the parameters of the natural-conjugate prior distribution and motivate the values that you choose. Use the computer codes you developed in to estimate the AR(1) model with a constant term for each of the series. Use the obtained draws from the posterior density to:</p>
 <ul>
@@ -543,8 +540,8 @@ p\left(A|Y,X\right) &amp;= t\left( \overline{A}, \overline{V}, \overline{s}, \ov
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>),<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       [,1]   [,2]  [,3]
-[1,] 0.0003 1.0001 4e-03
-[2,] 0.0561 0.0225 4e-04</code></pre>
+[1,] 0.0007 1.0000 4e-03
+[2,] 0.0561 0.0224 4e-04</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(posterior.draws.r,<span class="dv">2</span>,mean),</span>
@@ -552,13 +549,14 @@ p\left(A|Y,X\right) &amp;= t\left( \overline{A}, \overline{V}, \overline{s}, \ov
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>),<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       [,1]    [,2]   [,3]
-[1,] 0.2884 -0.0623 0.1549
-[2,] 0.0300  0.0630 0.0137</code></pre>
+[1,] 0.2885 -0.0632 0.1545
+[2,] 0.0303  0.0629 0.0140</code></pre>
 </div>
 </div>
 <p>The autoregressive slope parameter for the model for the quarterly annualized log-returns has the posterior distribution concentrated near value zero with the posterior mean equal to -0.063 and the posterior standard deviation equal to 0.07. Therefore, this variable is clearly stationary, mean-reverting, and the average quarterly annualized log-return has value around 3.6 pp.</p>
-<section id="exercise-4.3." class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="exercise-4.3.">Exercise 4.3.</h3>
+</section>
+<section id="exercise-4.3.-unit-root-testing" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-4.3.-unit-root-testing">Exercise 4.3. Unit root testing</h3>
 <blockquote class="blockquote">
 <p>Compute the fraction of the posterior draws of parameter <span class="math inline">\(\alpha_1\)</span> that are greater than 1 for both of the models. Confront these results with the histograms, posterior means and standard deviations of <span class="math inline">\(\alpha_1\)</span> for both of the models, and interpret these results. Comment on the Bayesian evidence in favour of the unit root hypothesis for each of the time series. Comment on the interpretations of the values of the constant term in both of the models in the context of your statements on unit-root stationarity of the considered time series.</p>
 </blockquote>
@@ -566,7 +564,7 @@ p\left(A|Y,X\right) &amp;= t\left( \overline{A}, \overline{V}, \overline{s}, \ov
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(posterior.draws.y[,<span class="dv">2</span>]<span class="sc">&gt;</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5008</code></pre>
+<pre><code>[1] 0.4976</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(posterior.draws.r[,<span class="dv">2</span>]<span class="sc">&gt;</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
