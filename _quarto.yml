@@ -1,0 +1,19 @@
+project:
+  type: book
+
+book:
+  title: "Macroeconometrics: Lecture Notes"
+  author: "Tomasz Woźniak"
+  date: "19 October 2022"
+  chapters:
+    - index.qmd
+    - regression.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt

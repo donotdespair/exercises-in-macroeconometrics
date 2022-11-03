@@ -1,0 +1,238 @@
+# Bayesian Analysis of Linear Regression Model
+
+\section*{Posterior derivations for a simple linear regression model}
+
+> This document presents the derivations of the posterior distributions for a simple linear regression model. It considers cases of a natural-conjugate and conditionally-conjugate prior distributions and presents the analytical derivations of the joint posterior distribution for the former, the Gibbs sampler for the latter case.
+
+
+
+## The model
+
+Consider the following linear regression model:
+\begin{align} 
+Y &= \beta X + E\\
+E|X &\sim\mathcal{N}\left(\mathbf{0}_T, \sigma^2I_T\right),
+\end{align} 
+where $Y$ and $X$ are $T\times1$ vectors of observations on the dependent and explanatory variables respectively, and $T$ is the sample size, $E$ is a $T\times1$ vector stacking the error terms, and $\beta$ is a scalar parameter. Conditionally on $X$, $E$ is normally distributed with the mean set to a $T$-column vector of zeros, denoted by $\mathbf{0}_T$, and covariance matrix equal to $\sigma^2I_T$, where $\sigma^2$ is individual error term variance, and $I_T$ is an identity matrix of order $T$.The predictive density of data conditional of the explanatory variables and the parameters of the model that is implied by the model equations above is specified as:
+\begin{equation} 
+Y|X,\beta,\sigma^2 \sim\mathcal{N}\left(\beta X, \sigma^2I_T\right).
+\end{equation} 
+
+
+## Likelihood function
+
+Let vector $\theta=\left(\beta,\sigma^2\right)'$ collect the parameters of the model. Then, the likelihood function takes the following form:
+\begin{equation}
+L\left(\theta|Y,X\right) = (2\pi)^{-\frac{T}{2}} \left( \sigma^2 \right)^{-\frac{T}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}(Y-\beta X)'(Y-\beta X) \right\}
+\end{equation}
+We show that the likelihood function has the form of a normal inverse gamma 2 distribution for the parameters of the model $\beta$ and $\sigma^2$.
+\begin{align}
+L\left(\theta|Y,X\right) &\propto \left( \sigma^2 \right)^{-\frac{T}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}(Y-\beta X)'(Y-\beta X) \right\}\\[1ex]
+&= \left( \sigma^2 \right)^{-\frac{T}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}(Y-\hat\beta X +\hat\beta X - \beta X)'(Y-\hat\beta X +\hat\beta X-\beta X) \right\}\label{eq:likeli1}\\[1ex]
+&= \left( \sigma^2 \right)^{-\frac{T}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}\left[ (\beta - \hat\beta)'X'X (\beta - \hat\beta) + (Y-\hat\beta X)'(Y-\hat\beta X)\right] \right\}\label{eq:likeli2}\\[1ex]
+&= \left( \sigma^2 \right)^{-\frac{T}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2} (\beta - \hat\beta)'X'X (\beta - \hat\beta) \right\} \exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}  (Y-\hat\beta X)'(Y-\hat\beta X) \right\}\label{eq:likeli3}
+\end{align}
+where in the second line above we add and subtract $\hat\beta X$, where $\hat\beta = (X'X)^{-1}X'Y$ is the Maximum Likelihood Estimator of $\beta$, and then, simply regroup and cancel out appropriate elements to go from line \eqref{eq:likeli1} to \eqref{eq:likeli2}.
+
+The outcome of the derivation is the kernel of the normal inverse gamma 2 distribution. To see this, reorder the terms in equation \eqref{eq:likeli3} the following way:
+\begin{equation}
+\underbrace{\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2} (\beta - \hat\beta)'X'X (\beta - \hat\beta) \right\}}_{\text{normal part for }\beta|\sigma^2}
+\underbrace{\left( \sigma^2 \right)^{-\frac{T}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}  (Y-\hat\beta X)'(Y-\hat\beta X) \right\}}_{\text{inverse gamma 2 part for }\sigma^2},
+\end{equation}
+and note that two parts can be easily identified. One is the kernel of the normal distribution of $\beta$ given $\sigma^2$, and the other is the kernel of the inverse gamma 2 distribution for $\sigma^2$.
+
+We can, therefore, write that the likelihood function implies the following distribution for the parameters of the model:
+\begin{equation}
+L\left(\theta|Y,X\right) = \mathcal{NIG}2_{(N=1)}\left(\hat\beta, (X'X)^{-1}, (Y-\hat\beta X)'(Y-\hat\beta X),  T-3 \right)
+\end{equation}
+
+
+## A natural-conjugate prior distribution
+
+A natural-conjugate prior distribution is of the same form as the distribution of the parameters implied by the likelihood function. More importantly, it implies the joint posterior distribution in a form of the same parametric distribution, which is shown in Section \ref{sec:posterior}. The naturally-conjugate prior distribution for parameters $\beta$ and $\sigma^2$ is of normal inverse gamma 2 form. More specifically, it is specified by a normal conditional distribution of $\beta$ given $\sigma^2$ and a marginal inverse gamma 2 prior distribution for $\sigma^2$:
+\begin{align}
+p\left(\beta, \sigma^2\right) &= p\left(\beta|\sigma^2\right)p\left(\sigma^2\right),
+\end{align}
+where the individual distributions are as follows:
+\begin{align}
+p\left(\beta|\sigma^2\right)&=\mathcal{N}\left( \underline{\beta}, \sigma^2\underline{\sigma}_{\beta}^2 \right)\\
+p\left(\sigma^2\right)&=\mathcal{IG}2(\underline{s},\underline{\nu}).
+\end{align}
+Therefore, we write down its kernel as:
+\begin{equation}\label{eq:prior}
+\mathcal{NIG}2_{(N=1)}\left(\underline{\beta}, \underline{\sigma}_{\beta}^2, \underline{s},\underline{\nu} \right) \propto \left(\sigma^2\right)^{-\frac{\underline{\nu}+3}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}\frac{1}{\underline{\sigma}_{\beta}^2}(\beta-\underline{\beta})'(\beta-\underline{\beta}) \right\}
+\exp\left\{ -\frac{1}{2}\frac{\underline{s}}{\sigma^2} \right\}
+\end{equation} 
+
+
+
+## Joint posterior distribution
+
+In this section, we derive an analytical solution to the joint posterior distribution of a simple regression model with natural-conjugate prior distribution in a form of the normal inverse gamma 2 distribution.
+
+The posterior distribution is proportional to the product of the likelihood function and the prior distribution:
+\begin{align}
+p\left( \beta,\sigma^2|Y,X \right) &\propto L\left( Y|X,\beta,\sigma^2 \right)p\left( \beta,\sigma^2 \right)\\
+&= L\left( Y|X,\beta,\sigma^2 \right)p\left( \beta|\sigma^2 \right)p\left( \sigma^2 \right)
+\end{align}
+We plug in the corresponding expressions for the likelihood function from equation \eqref{eq:likeli3} and the prior distribution from equation \eqref{eq:prior} to obtain:
+\begin{align}
+p\left( \beta,\sigma^2|Y,X \right) &\propto 
+\left( \sigma^2 \right)^{-\frac{T}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2} (\beta - \hat\beta)'X'X (\beta - \hat\beta) \right\} \exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}  (Y-\hat\beta X)'(Y-\hat\beta X) \right\}\\
+&\quad\times \left(\sigma^2\right)^{-\frac{\underline{\nu}+3}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}\frac{1}{\underline{\sigma}_{\beta}^2}(\beta-\underline{\beta})'(\beta-\underline{\beta}) \right\}
+\exp\left\{ -\frac{1}{2}\frac{\underline{s}}{\sigma^2} \right\}
+\end{align}
+which, after collecting corresponding powers of $\sigma^2$ and arguments of the exponential function, can be written as:
+\begin{equation}\label{eq:post-kernel}
+p\left( \beta,\sigma^2|Y,X \right) \propto 
+\left( \sigma^2 \right)^{-\frac{\underline{\nu}+T+3}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2} 
+\left[ \frac{1}{\underline{\sigma}_{\beta}^2}(\beta-\underline{\beta})'(\beta-\underline{\beta}) + (\beta - \hat\beta)'X'X (\beta - \hat\beta) + \underline{s} + (Y-\hat\beta X)'(Y-\hat\beta X) \right] \right\}
+\end{equation}
+
+To derive the parameters of the posterior distribution we will now focus on expression in square parentheses in the exponential function. The idea is to derive the following quadratic form, $\overline{\sigma}_{\beta}^{-2}(\beta-\overline{\beta})'(\beta-\overline{\beta})$ and separate it from the rest of the elements. The derivation of the quadratic form requires completing the squares. The quadratic form will be used to construct the normal distribution part of the posterior distribution, whereas the remaining elements will be used to construct its inverse gamma 2 part.
+
+The first step is to multiply all of the elements:
+\begin{multline}
+\frac{1}{\underline{\sigma}_{\beta}^2}(\beta-\underline{\beta})'(\beta-\underline{\beta}) + (\beta - \hat\beta)'X'X (\beta - \hat\beta) + \underline{s} + (Y-\hat\beta X)'(Y-\hat\beta X)\\
+= \beta^2\underline{\sigma}_{\beta}^{-2} - \beta 2 \underline{\beta} \underline{\sigma}_{\beta}^{-2} + \underline{\beta}^2 \underline{\sigma}_{\beta}^{-2}+ \beta^2X'X - \beta 2 \hat\beta X'X + \hat\beta^2 X'X + \underline{s} + Y'Y -2\hat\beta X'Y + \hat\beta^2 X'X
+\end{multline}
+The second step is to collect the elements containing $\beta$ and $\beta^2$ to obtain:
+\begin{equation}
+= \beta^2\left( \underline{\sigma}_{\beta}^{-2} + X'X\right) - \beta 2 \left( \underline{\beta} \underline{\sigma}_{\beta}^{-2} + \hat\beta X'X \right) + \underline{\beta}^2 \underline{\sigma}_{\beta}^{-2}  + \underline{s} + Y'Y -2\hat\beta X'Y + 2\hat\beta^2 X'X
+\end{equation}
+It is easy to show that the last two elements in the formula above, $-2\hat\beta X'Y + 2\hat\beta^2 X'X$, cancel out.
+
+Let $\overline{\sigma}_{\beta}^{-2} = \left( \underline{\sigma}_{\beta}^{-2} + X'X\right)$. Now, plug in $\overline{\sigma}_{\beta}^{-2}$ in the expression above and also multiply and divide its second element by $\overline{\sigma}_{\beta}^{2}$:
+\begin{equation}
+= \beta^2\overline{\sigma}_{\beta}^{-2} - \beta 2 \left( \underline{\beta} \underline{\sigma}_{\beta}^{-2} + \hat\beta X'X \right)\overline{\sigma}_{\beta}^{2}\overline{\sigma}_{\beta}^{-2} + \underline{\beta}^2 \underline{\sigma}_{\beta}^{-2}  + \underline{s} + Y'Y 
+\end{equation}
+Let $\overline{\beta} = \left( \underline{\beta} \underline{\sigma}_{\beta}^{-2} + \hat\beta X'X \right)\overline{\sigma}_{\beta}^{2}$. In the next step, plug in $\overline{\beta}$ in the expression above and also add and subtract term $\overline{\beta}^2 \overline{\sigma}_{\beta}^{-2}$ to obtain:
+\begin{equation}
+= \beta^2\overline{\sigma}_{\beta}^{-2} - \beta 2 \overline{\beta}\overline{\sigma}_{\beta}^{-2} + \overline{\beta}^2 \overline{\sigma}_{\beta}^{-2} - \overline{\beta}^2 \overline{\sigma}_{\beta}^{-2} + \underline{\beta}^2 \underline{\sigma}_{\beta}^{-2}  + \underline{s} + Y'Y 
+\end{equation}
+Note that the first three terms in above can be written as $\beta^2\overline{\sigma}_{\beta}^{-2} - \beta 2 \overline{\beta}\overline{\sigma}_{\beta}^{-2} + \overline{\beta}^2 \overline{\sigma}_{\beta}^{-2} = \overline{\sigma}_{\beta}^{-2}\left(\beta-\overline{\beta}\right)'\left(\beta-\overline{\beta}\right)$. 
+
+Therefore, we conclude our derivation and obtain:
+\begin{equation}
+= \overline{\sigma}_{\beta}^{-2}\left(\beta-\overline{\beta}\right)'\left(\beta-\overline{\beta}\right) + \underline{s} + \underline{\beta}^2 \underline{\sigma}_{\beta}^{-2} - \overline{\beta}^2 \overline{\sigma}_{\beta}^{-2}  + Y'Y 
+\end{equation}
+After plugging in the expression above back to the density function of the posterior distribution in equation \eqref{eq:post-kernel} we obtain:
+\begin{align}
+p\left( \beta,\sigma^2|Y,X \right) &\propto 
+\left( \sigma^2 \right)^{-\frac{\underline{\nu}+T+3}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2} 
+\frac{1}{\overline{\sigma}_{\beta}^{2}}\left(\beta-\overline{\beta}\right)'\left(\beta-\overline{\beta}\right) \right\} \exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2} \left( \underline{s} + \underline{\beta}^2 \underline{\sigma}_{\beta}^{-2} - \overline{\beta}^2 \overline{\sigma}_{\beta}^{-2}  + Y'Y  \right)  \right\}\\
+&=  \left(\sigma^2\right)^{-\frac{\overline{\nu}+3}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}\frac{1}{\overline{\sigma}_{\beta}^2}\left(\beta-\overline{\beta}\right)'\left(\beta-\overline{\beta}\right) \right\}
+\exp\left\{ -\frac{1}{2}\frac{\overline{s}}{\sigma^2} \right\}
+\end{align}
+which fully defines the joint posterior distribution as the normal inverse gamma 2 distribution with parameters $\overline{\beta}$, $\overline{\sigma}_{\beta}^2$, $\overline{s}$, and $\overline{\nu}$ given by:
+\begin{align*} 
+p\left( \beta,\sigma^2|Y,X \right) &= \mathcal{NIG}2_{(N=1)}\left(\overline{\beta}, \overline{\sigma}_{\beta}^2, \overline{s},\overline{\nu} \right)\\[1ex]
+\overline{\sigma}_{\beta}^2 &= \left( \underline{\sigma}_{\beta}^{-2} + X'X \right)^{-1} \\
+\overline{\beta} &= \overline{\sigma}_{\beta}^2\left( \underline{\sigma}_{\beta}^{-2}\underline{\beta} + X'Y \right) \\ 
+\overline{s} &= \underline{s} + \underline{\sigma}_{\beta}^{-2}\underline{\beta}^2 - \overline{\sigma}_{\beta}^{-2}\overline{\beta}^2 + Y'Y \\
+\overline{\nu} &= \underline{\nu} + T
+\end{align*} 
+The distribution above fully characterizes our knowledge about the parameters of the model after updating the prior distribution with the information from the data.
+
+
+
+## A conditionally-conjugate prior distribution
+
+
+In the subsequent two sections, we consider an alternative way of setting the prior distribution that leads to an alternative estimation procedure. 
+
+A conditionally-conjugate prior distribution implies the corresponding full conditional posterior distribution in the same functional form. To assure this property, we assume that $\beta$ and $\sigma^2$ are \emph{a priori} independent and that the parameters follow the following independent normal inverse gamma 2 distribution.
+\begin{align}
+p\left(\beta, \sigma^2\right) &= p\left(\beta\right)p\left(\sigma^2\right)\\[1ex]
+p\left(\beta\right)&=\mathcal{N}\left( \underline{\beta}, \underline{\sigma}_{\beta}^2 \right)\\
+p\left(\sigma^2\right)&=\mathcal{IG}2(\underline{s},\underline{\nu})
+\end{align}
+Therefore, we write down its kernel as:
+\begin{equation} 
+p\left(\beta, \sigma^2\right) \propto 
+\underbrace{\exp\left\{ -\frac{1}{2}\frac{1}{\underline{\sigma}_{\beta}^2}(\beta-\underline{\beta})'(\beta-\underline{\beta}) \right\}}_{\text{normal part for }\beta} 
+\times 
+\underbrace{\left(\sigma^2\right)^{-\frac{\underline{\nu}+2}{2}}
+\exp\left\{ -\frac{1}{2}\frac{\underline{s}}{\sigma^2} \right\}}_{\text{inverse gamma part for }\sigma^2}
+\end{equation} 
+
+
+
+## Full conditional posterior distributions
+
+The prior independence of $\beta$ and $\sigma^2$ implies an intractable form of the joint posterior distribution. However, the independent normal inverse gamma 2 distribution belongs to a class of conditionally-conjugate prior distributions and implies that the full conditional posterior distributions $p\left(\beta|Y,X,\sigma^2\right)$ and $p\left(\sigma^2|Y,X,\beta\right)$ are in a form of known distributions. We derive these distributions below and specify the Gibbs sampler using them.
+
+In the first step, we derive the full conditional posterior distribution for $beta$ given, $Y$, $X$, and $\sigma^2$, that is denoted by $p\left(\beta|Y,X,\sigma^2\right)$. Conditioning on $\sigma^2$ implies that, for the sake of deriving the full conditional posterior distribution of $\beta$, we treat it as non-random and, therefore, any elements that contain $\sigma^2$ that do not contain $\beta$ can be omitted when working with the kernel of $p\left(\beta|Y,X,\sigma^2\right)$.
+\begin{align} 
+p\left(\beta|Y,X,\sigma^2\right) &\propto L\left(\beta,\sigma^2|Y,X\right)p\left(\beta\right)\\
+&= \exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}(Y-\beta X)'(Y-\beta X) \right\} \times
+\exp\left\{ -\frac{1}{2}\frac{1}{\underline{\sigma}_{\beta}^2}(\beta-\underline{\beta})'(\beta-\underline{\beta}) \right\}\\
+&= \exp\left\{ -\frac{1}{2}\left[\frac{1}{\sigma^2}(Y-\beta X)'(Y-\beta X) + \frac{1}{\underline{\sigma}_{\beta}^2}(\beta-\underline{\beta})'(\beta-\underline{\beta}) \right]\right\}\label{eq:betafullcond}
+\end{align} 
+
+Focus on the expression in square parentheses and transform it to a quadratic form $\frac{1}{\overline{\sigma}_{\beta}^2}(\beta-\overline{\beta})'(\beta-\overline{\beta})$, where $\overline{\beta}$ and $\overline{\sigma}_{\beta}^2$ denote the parameters of the full conditional posterior distribution for $\beta$.
+
+In this step of the derivation, we multiply all of the elements and then rearrange them collecting elements containing $\beta^2$ and $\beta$ respectively dropping all others elements from the kernel of the distribution:
+\begin{align} 
+\sigma^{-2}(Y-\beta X)'(Y-\beta X) + \underline{\sigma}_{\beta}^{-2}(\beta-\underline{\beta})'(\beta-\underline{\beta}) 
+&= \sigma^{-2}Y'Y -\beta2X'Y\sigma^{-2} + \beta^2X'X\sigma^{-2} + \beta^2\underline{\sigma}_{\beta}^{-2} - \beta2\underline{\beta}\underline{\sigma}_{\beta}^{-2}+ \underline{\beta}^{2}\underline{\sigma}_{\beta}^{-2}\\
+&= \beta^2\left(X'X\sigma^{-2} + \underline{\sigma}_{\beta}^{-2}\right) - \beta2\left(X'Y\sigma^{-2} + \underline{\beta}\underline{\sigma}_{\beta}^{-2}\right) + \dots
+\end{align} 
+Let $\overline{\sigma}_{\beta}^2=\left(X'X\sigma^{-2} + \underline{\sigma}_{\beta}^{-2}\right)^{-1}$, and multiply and divide the second element on the right-hand side of the second line above by $\overline{\sigma}_{\beta}^2$ to obtain:
+\begin{align} 
+\propto \beta^2\overline{\sigma}_{\beta}^{-2} - \beta2\left(X'Y\sigma^{-2} + \underline{\beta}\underline{\sigma}_{\beta}^{-2}\right)\overline{\sigma}_{\beta}^2 \overline{\sigma}_{\beta}^{-2} 
+&= \beta^2\overline{\sigma}_{\beta}^{-2} - \beta2 \overline{\beta} \overline{\sigma}_{\beta}^{-2}\\
+&= \beta^2\overline{\sigma}_{\beta}^{-2} - \beta2 \overline{\beta} \overline{\sigma}_{\beta}^{-2} + \overline{\beta}^2\overline{\sigma}_{\beta}^{-2} + \dots
+\end{align} 
+Note that on the right-hand side of the first line above we plugged in $\overline{\beta} = \left(X'Y\sigma^{-2} + \underline{\beta}\underline{\sigma}_{\beta}^{-2}\right)\overline{\sigma}_{\beta}^2$, and in the second line we added and subtracted from the expression element $\overline{\beta}^2\overline{\sigma}_{\beta}^{-2}$. Then, we dropped the element with the negative sign as we do not need it in the kernel of the distribution for $\beta$. Finally, we obtain the required quadratic form:
+\begin{equation} 
+\beta^2\overline{\sigma}_{\beta}^{-2} - \beta2 \overline{\beta} \overline{\sigma}_{\beta}^{-2} + \overline{\beta}^2\overline{\sigma}_{\beta}^{-2} = \overline{\sigma}_{\beta}^{-2}(\beta-\overline{\beta})'(\beta-\overline{\beta})
+\end{equation} 
+which we now plug in back again to the expression in equation \eqref{eq:betafullcond}:
+\begin{equation} 
+p\left(\beta|Y,X,\sigma^2\right) \propto  \exp\left\{ -\frac{1}{2}\overline{\sigma}_{\beta}^{-2}(\beta-\overline{\beta})'(\beta-\overline{\beta})\right\}
+\end{equation} 
+in which we recognize the kernel of a normal distribution.
+
+Therefore, we the full conditional posterior distribution of $\beta$ is a normal distribution:
+\begin{align} 
+p\left(\beta|Y,X,\sigma^2\right) &=\mathcal{N}\left(\overline{\beta}, \overline{\sigma}_{\beta}^2\right)\\
+\overline{\sigma}_{\beta}^2 &= \left( \underline{\sigma}_{\beta}^{-2}+ \sigma^{-2}X'X \right)^{-1}\\
+\overline{\beta} &= \overline{\sigma}_{\beta}^2\left( \underline{\sigma}_{\beta}^{-2}\underline{\beta} + \sigma^{-2}X'Y \right)
+\end{align} 
+
+
+In the second step of the derivations, we proceed similarly to derive the full conditional posterior distribution of $\sigma^2$ given $Y$, $X$, and $\beta$, that is denoted by $p\left(\sigma^2|Y,X,\beta\right)$. Conditioning on $\beta$ implies that, for the sake of deriving the full conditional posterior distribution of $\sigma^2$, we treat it as non-random and, therefore, any elements that contain $\beta$ and do not contain $\sigma^2$ can be omitted when working with the kernel of $p\left(\sigma^2|Y,X,\beta\right)$.
+\begin{align} 
+p\left(\sigma^2|Y,X,\beta\right) &\propto L\left(\beta,\sigma^2|Y,X\right)p\left(\sigma^2\right)\\
+&= \left( \sigma^2 \right)^{-\frac{T}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}(Y-\beta X)'(Y-\beta X) \right\} \times
+\left(\sigma^2\right)^{-\frac{\underline{\nu}+2}{2}}\exp\left\{ -\frac{1}{2}\frac{\underline{s}}{\sigma^2} \right\}\\
+&= \left( \sigma^2 \right)^{-\frac{T+\underline{\nu}+2}{2}}\exp\left\{ -\frac{1}{2}\frac{1}{\sigma^2}\left[(Y-\beta X)'(Y-\beta X) + \underline{s} \right]\right\}\label{eq:fcsi1}\\
+&= \left( \sigma^2 \right)^{-\frac{\overline{\nu}+2}{2}}\exp\left\{ -\frac{1}{2}\frac{\overline{s}}{\sigma^2}\right\}\label{eq:fcsi2}
+\end{align} 
+In line \eqref{eq:fcsi1}, we rearranged the elements, and in line \eqref{eq:fcsi2} expressions for $\overline{\nu} = T+\underline{\nu}$ and $\overline{s} = (Y-\beta X)'(Y-\beta X) + \underline{s}$ were plugged in. The final line specifies the kernel of the following inverse gamma 2 distribution:
+\begin{align} 
+p\left(\sigma^2|Y,X,\beta\right) &= \mathcal{IG}2\left( \overline{s}, \overline{\nu} \right)\\[1ex]
+\overline{s} &= \underline{s} + (Y-\beta X)'(Y-\beta X) \\
+\overline{\nu} &= \underline{\nu} +T 
+\end{align}
+
+## Gibbs sampler
+
+The Gibbs sampler for the simple linear regression is given by the following algorithm:
+\begin{description}
+\item[Initialize] $\sigma^2$ at some positive value $\sigma^{2(0)}$
+\item[At each iteration] $s$:
+\begin{description}
+\item[1. Draw] $\beta^{(s)}\sim p\left(\beta|Y,X,\sigma^{2(s-1)}\right) = \mathcal{N}\left(\overline{\beta}, \overline{\sigma}_{\beta}^2\right)$
+\item[2. Draw] $\sigma^{2(s)}\sim p\left(\sigma^2|Y,\beta^{(s)}\right)=\mathcal{IG}2\left( \overline{s}, \overline{\nu} \right)$
+\end{description}
+\item[Repeat] steps 1. and 2. $S_1 + S_2$ times
+\item[Discard] the first $S_1$ draws that allowed the algorithm to converge to the stationary posterior distribution
+\item[Output] is a sample of draws from the joint posterior distribution $\left\{ \beta^{(s)}, \sigma^{2(s)} \right\}_{s=S_1+1}^{S_2}$
+\end{description}
+
+The implementation of this Gibbs sampler in R requires a feasible random number generators from the normal and inverse gamma 2 distributions. To sample random numbers from the normal distribution, $\mathcal{N}_1\left( \mu, \sigma^2 \right)$, use function \texttt{rnorm()} available from the \texttt{stats} package that is uploaded to the memory by default upon opening R. To sample random numbers from a multivariate normal distribution, $\mathcal{N}_N\left( \mu, \Sigma \right)$, use function \texttt{rmvnorm()} from package \texttt{mvtnorm}. Sampling random numbers from the inverse gamma 2 distribution, $\mathcal{IG}2\left( s, \nu \right)$, requires a two-step procedure. In the first step, draw a random number from $\bar{s}\sim\chi^2(\nu)$ using function \texttt{rchisq()}. In the second step, return $s/\bar{s}$ as a draw from $\mathcal{IG}2\left( s, \nu \right)$.
+
+
+
