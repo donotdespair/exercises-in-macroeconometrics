@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Exercises in Macroeconometrics - 2&nbsp; Exercises in Bayesian Estimation of Autoregression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./regression.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Exercises in Bayesian Estimation of Autoregression</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Exercises in Macroeconometrics</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Simple Linear Regression</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bayesian Estimation of Linear Regression Model</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regression_exercises.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Exercises in Bayesian Estimation of Autoregression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#exercise-2-posterior-distribution-and-its-properties" id="toc-exercise-2-posterior-distribution-and-its-properties" class="nav-link active" data-scroll-target="#exercise-2-posterior-distribution-and-its-properties">Exercise 2 Posterior distribution and its properties</a>
+  <ul class="collapse">
+  <li><a href="#exercise-2.1.-matrix-notation" id="toc-exercise-2.1.-matrix-notation" class="nav-link" data-scroll-target="#exercise-2.1.-matrix-notation">Exercise 2.1. Matrix notation</a></li>
+  <li><a href="#exercise-2.2.-the-likelihood-prior-and-posterior-distributions" id="toc-exercise-2.2.-the-likelihood-prior-and-posterior-distributions" class="nav-link" data-scroll-target="#exercise-2.2.-the-likelihood-prior-and-posterior-distributions">Exercise 2.2. The likelihood, prior and posterior distributions</a></li>
+  <li><a href="#exercise-2.3.-posterior-moments-and-their-properties" id="toc-exercise-2.3.-posterior-moments-and-their-properties" class="nav-link" data-scroll-target="#exercise-2.3.-posterior-moments-and-their-properties">Exercise 2.3. Posterior moments and their properties</a></li>
+  <li><a href="#exercise-2.4.-marginal-posterior" id="toc-exercise-2.4.-marginal-posterior" class="nav-link" data-scroll-target="#exercise-2.4.-marginal-posterior">Exercise 2.4. Marginal posterior</a></li>
+  </ul></li>
+  <li><a href="#exercise-3-bayesian-estimation-in-r" id="toc-exercise-3-bayesian-estimation-in-r" class="nav-link" data-scroll-target="#exercise-3-bayesian-estimation-in-r">Exercise 3: Bayesian estimation in R</a>
+  <ul class="collapse">
+  <li><a href="#exercise-3.1.-estimation-function" id="toc-exercise-3.1.-estimation-function" class="nav-link" data-scroll-target="#exercise-3.1.-estimation-function">Exercise 3.1. Estimation function</a></li>
+  <li><a href="#exercise-3.2.-sampling-random-draws-from-the-posterior" id="toc-exercise-3.2.-sampling-random-draws-from-the-posterior" class="nav-link" data-scroll-target="#exercise-3.2.-sampling-random-draws-from-the-posterior">Exercise 3.2. Sampling random draws from the posterior</a></li>
+  </ul></li>
+  <li><a href="#exercise-4-empirical-analysis-of-australian-real-gross-domestic-product" id="toc-exercise-4-empirical-analysis-of-australian-real-gross-domestic-product" class="nav-link" data-scroll-target="#exercise-4-empirical-analysis-of-australian-real-gross-domestic-product">Exercise 4: Empirical analysis of Australian real Gross Domestic Product</a>
+  <ul class="collapse">
+  <li><a href="#exercise-4.1." id="toc-exercise-4.1." class="nav-link" data-scroll-target="#exercise-4.1.">Exercise 4.1.</a></li>
+  </ul></li>
+  <li><a href="#exercise-4.2." id="toc-exercise-4.2." class="nav-link" data-scroll-target="#exercise-4.2.">Exercise 4.2.</a>
+  <ul class="collapse">
+  <li><a href="#exercise-4.3." id="toc-exercise-4.3." class="nav-link" data-scroll-target="#exercise-4.3.">Exercise 4.3.</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Exercises in Bayesian Estimation of Autoregression</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="exercise-2-posterior-distribution-and-its-properties" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercise-2-posterior-distribution-and-its-properties">Exercise 2 Posterior distribution and its properties</h2>
+<p>Consider a simple autoregression of order 1 given by: <span class="math display">\[\begin{align}
+y_t &amp;= \mu_0 + \alpha_1 y_{t-1} +  \epsilon_t\\
+\epsilon_t|y_{t-1} &amp;\sim iid\mathcal{N}\left(0,\sigma^2\right)
+\end{align}\]</span> where <span class="math inline">\(y_t\)</span> is a scalar real-valued random variable, <span class="math inline">\(\epsilon_t\)</span> is an error term at time <span class="math inline">\(t\)</span>, and where the parameters of the model are collected in a vector <span class="math inline">\(\theta=(\mu_0, \alpha_1, \sigma^2)\)</span>. The notation is consistent with the one used in lecture slides. Suppose that <span class="math inline">\(T+1\)</span> observations on <span class="math inline">\(y_t\)</span> for <span class="math inline">\(t=0,1,\dots,T\)</span> are available.</p>
+<section id="exercise-2.1.-matrix-notation" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-2.1.-matrix-notation">Exercise 2.1. Matrix notation</h3>
+<blockquote class="blockquote">
+<p>Propose a matrix notation for the model and use it to represent the AR(1) model above in a linear regression form. State explicitly the joint conditional distribution of the error terms <span class="math inline">\(\epsilon_t\)</span> for for <span class="math inline">\(t=1,2,\dots,T\)</span>. What is the joint predictive distribution of the vector collecting observations on the dependent variable?</p>
+</blockquote>
+<p>Define the following matrices:</p>
+<p><span class="math display">\[
+\underset{(T\times 1)}{Y} = \begin{bmatrix} y_1\\y_2\\ \vdots \\y_T \end{bmatrix}\qquad
+\underset{(T\times 2)}{X} = \begin{bmatrix} 1 &amp; y_0\\ 1&amp; y_1\\ \vdots&amp;\vdots \\1&amp;y_{T-1} \end{bmatrix}\qquad
+\underset{(T\times 1)}{E} = \begin{bmatrix} \epsilon_1\\ \epsilon_2\\ \vdots \\ \epsilon_T \end{bmatrix}\qquad
+\underset{(2\times 1)}{A} = \begin{bmatrix} \mu_0 \\ \alpha_1 \end{bmatrix}
+\]</span></p>
+<p>The model can be written as:</p>
+<p><span class="math display">\[ Y=XA + E\]</span></p>
+<p>and the joint conditional distribution of the error terms is:</p>
+<p><span class="math display">\[ E|X\sim\mathcal{N}\left(\mathbf{0}_{T\times 1},\sigma^2 I_T\right) \]</span></p>
+<p><span class="math inline">\(Y\)</span> is a linear combination of a normal vector <span class="math inline">\(E\)</span>. Therefore, the predictive density is given by: <span class="math display">\[\begin{equation}\label{eq:predictive}
+Y|X\sim\mathcal{N}\left(XA,\sigma^2 I_T\right)
+\end{equation}\]</span></p>
+</section>
+<section id="exercise-2.2.-the-likelihood-prior-and-posterior-distributions" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-2.2.-the-likelihood-prior-and-posterior-distributions">Exercise 2.2. The likelihood, prior and posterior distributions</h3>
+<blockquote class="blockquote">
+<p>Write down the likelihood function for the model. What distribution of vector <span class="math inline">\(\theta\)</span> does it imply? Propose a~natural-conjugate prior distribution for the parameter vector <span class="math inline">\(\theta\)</span>. Explain why it is a~natural-conjugate specification. Derive the joint posterior distribution of parameter vector <span class="math inline">\(\theta\)</span> given the data.</p>
+</blockquote>
+<p>Equation <span class="math inline">\(\eqref{eq:predictive}\)</span> implies the following form of the likelihood function: <span class="math display">\[\begin{align*}
+L(A,\sigma^2|YX) &amp;= \left(2\pi\right)^{-\frac{T}{2}}\left(\sigma^2\right)^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}(Y-XA)'(Y-XA)\right\}\\
+&amp;\propto \left(\sigma^2\right)^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}(Y\pm X\hat{A}-XA)'(Y\pm X\hat{A}-XA)\right\}\\
+&amp;= \left(\sigma^2\right)^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}\left[(A-\hat{A})'X'X(A-\hat{A}) + (Y-X\hat{A})'(Y-X\hat{A})\right]\right\}\\
+&amp;= \left(\sigma^2\right)^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}(A-\hat{A})'X'X(A-\hat{A})\right\} \exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}(Y-X\hat{A})'(Y-X\hat{A})\right\}
+\end{align*}\]</span> which allows us to write it in the form of the following normal-inverse gamma 2 distribution:</p>
+<p><span class="math display">\[ L(A,\sigma^2|YX) =\mathcal{NIG}2\left(\mu=\hat{A},V=(X'X)^{-1}, s=(Y-X\hat{A})'(Y-X\hat{A}), \nu=T-4\right) \]</span></p>
+<p>The likelihood function in the form of the normal-inverse gamma 2 distribution is an indicator that a natural-conjugate prior distribution should be in a form of the following normal-inverse gamma 2 distribution:</p>
+<p><span class="math display">\[ p(A,\sigma^2) =\mathcal{NIG}2\left(\underline{A},\underline{V}, \underline{s}, \underline{\nu}\right) \]</span></p>
+<p>In consequence, the posterior distribution will a normal-inverse gamma 2 distribution as well.</p>
+<p>The posterior distribution is derived from the product of the likelihood function and the prior distribution: <span class="math display">\[\begin{align*}
+p(A,\sigma^2|YX) &amp;\propto L(A,\sigma^2|YX)p(A,\sigma^2)\\
+&amp;= \left(\sigma^2\right)^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}(Y-XA)'(Y-XA)\right\}\left(\sigma^2\right)^{-\frac{\underline{\nu}+4}{2}}\exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}(A-\underline{A})'\underline{V}^{-1}(A-\underline{A}) + \underline{s}\right\}\\
+&amp;= \left(\sigma^2\right)^{-\frac{T+\underline{\nu}+4}{2}}\exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}\left[ Y'Y-2A'X'Y + A'X'XA + A'\underline{V}^{-1}A - 2A'\underline{V}^{-1}\underline{A} + \underline{A}'\underline{V}^{-1}\underline{A} + \underline{s} \right]\right\}\\
+  &amp;= \left(\sigma^2\right)^{-\frac{T+\underline{\nu}+4}{2}}
+  \exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}\left[  A'\left( X'X + \underline{V}^{-1}\right)A -2A'\left( X'Y + \underline{V}^{-1}\underline{A}\right) + Y'Y+ \underline{A}'\underline{V}^{-1}\underline{A} + \underline{s} \right]\right\}
+\end{align*}\]</span> Let <span class="math inline">\(\overline{V}^{-1} = X'X + \underline{V}^{-1}\)</span> and multiply the second element in the square brackets by <span class="math inline">\(\overline{V}^{-1}\overline{V}\)</span>: <span class="math display">\[\begin{align*}
+&amp;= \left(\sigma^2\right)^{-\frac{T+\underline{\nu}+4}{2}}
+  \exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}\left[  A'\overline{V}^{-1}A -2A'\overline{V}^{-1}\overline{V}\left( X'Y + \underline{V}^{-1}\underline{A}\right) + Y'Y+ \underline{A}'\underline{V}^{-1}\underline{A} + \underline{s} \right]\right\}
+\end{align*}\]</span> Let <span class="math inline">\(\overline{A}=\overline{V}\left( X'Y + \underline{V}^{-1}\underline{A}\right)\)</span> and add and subtract term <span class="math inline">\(\overline{A}'\overline{V}^{-1}\overline{A}\)</span>: <span class="math display">\[\begin{align*}
+&amp;= \left(\sigma^2\right)^{-\frac{T+\underline{\nu}+4}{2}}
+  \exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}\left[  A'\overline{V}^{-1}A -2A'\overline{V}^{-1}\overline{A} \pm \overline{A}'\overline{V}^{-1}\overline{A} + Y'Y+ \underline{A}'\underline{V}^{-1}\underline{A} + \underline{s} \right]\right\}
+\end{align*}\]</span> Let <span class="math inline">\(\overline{\nu}=T+\underline{\nu}\)</span> and rearrange the terms: <span class="math display">\[\begin{align*}
+&amp;= \left(\sigma^2\right)^{-\frac{\overline{\nu}+4}{2}}
+  \exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}\left[  (A-\overline{A})'\overline{V}^{-1}(A-\overline{A}) - \overline{A}'\overline{V}^{-1}\overline{A} + Y'Y+ \underline{A}'\underline{V}^{-1}\underline{A} + \underline{s} \right]\right\}
+\end{align*}\]</span> Finally, let $= Y’Y+ + ‘^{-1} - ’^{-1} $ to obtain the kernel of the joint posterior distribution in a form: <span class="math display">\[\begin{align*}
+&amp;= \left(\sigma^2\right)^{-\frac{\overline{\nu}+4}{2}}
+  \exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}  (A-\overline{A})'\overline{V}^{-1}(A-\overline{A})\right\} \exp\left\{-\frac{1}{2}\frac{\overline{s}}{\sigma^2} \right\}
+\end{align*}\]</span> that is as the following normal-inverse gamma 2 distribution: <span class="math display">\[\begin{align*}
+p(A,\sigma^2|Y,X) &amp;=\mathcal{NIG}2\left(\overline{A},\overline{V}, \overline{s}, \overline{\nu}\right)\\
+\overline{V} &amp;= \left(X'X + \underline{V}^{-1}\right)^{-1}\\
+\overline{A}&amp;=\overline{V}\left( X'Y + \underline{V}^{-1}\underline{A}\right)\\
+\overline{s}&amp;=  Y'Y+ \underline{s}+ \underline{A}'\underline{V}^{-1}\underline{A} - \overline{A}'\overline{V}^{-1}\overline{A}\\
+\overline{\nu}&amp;=T+\underline{\nu}
+\end{align*}\]</span></p>
+</section>
+<section id="exercise-2.3.-posterior-moments-and-their-properties" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-2.3.-posterior-moments-and-their-properties">Exercise 2.3. Posterior moments and their properties</h3>
+<blockquote class="blockquote">
+<p>What is the posterior mean and the posterior variance of parameter <span class="math inline">\(\alpha_1\)</span>? Describe their properties when the value of the prior variance of this parameter goes to infinity.</p>
+</blockquote>
+<p>The joint posterior distribution of parameters <span class="math inline">\(A\)</span> and <span class="math inline">\(\sigma^2\)</span> is the normal-inverse gamma 2 distribution. The properties of this distribution indicate the the posterior mean of parameter <span class="math inline">\(A\)</span> is equal to <span class="math inline">\(\overline{A}\)</span> and it exists if <span class="math inline">\(\overline{\nu}&gt;1\)</span>. The posterior covariance of this parameter is equal to <span class="math inline">\(\frac{\overline{s}}{\overline{\nu}-2}\overline{V}\)</span> and it exist is <span class="math inline">\(\overline{\nu}&gt;2\)</span>. Both of the conditions hold irrespective of the value of <span class="math inline">\(\underline{\nu}\)</span> as long as more than two observations are used, which is quite certain. The posterior mean of parameter <span class="math inline">\(\alpha\)</span> is equal to the second element of <span class="math inline">\(\overline{A}\)</span> and its posterior variance is equal to the bottom right-hand-side element of <span class="math inline">\(\frac{\overline{s}}{\overline{\nu}-2}\overline{V}\)</span>. In the derivations below, assume that the prior covariance matrix <span class="math inline">\(\underline{V}\)</span> is diagonal.</p>
+<p>Write the appropriate matrices as: <span class="math display">\[\begin{align*}
+\overline{V} &amp;= \left( X'X + \underline{V}^{-1}\right)^{-1}\\
+&amp;=
+\begin{bmatrix}
+T + \frac{1}{\underline{V}_{11}} &amp; \sum y_{t-1}\\ &amp; \sum y_{t-1}^2 + \frac{1}{\underline{V}_{22}}
+\end{bmatrix}^{-1}\\
+&amp;= \frac{1}{ \left( T + \frac{1}{\underline{V}_{11}} \right)\left(\sum y_{t-1}^2 + \frac{1}{\underline{V}_{22}} \right) - \left( \sum y_{t-1}\right)^2 }
+\begin{bmatrix}
+\sum y_{t-1}^2 + \frac{1}{\underline{V}_{22}}  &amp; -\sum y_{t-1}\\ &amp; T + \frac{1}{\underline{V}_{11}}
+\end{bmatrix}
+\end{align*}\]</span> And thus: <span class="math display">\[\begin{align*}
+\overline{V}_{22} &amp;=  \frac{T + \frac{1}{\underline{V}_{11}}}{ \left( T + \frac{1}{\underline{V}_{11}} \right)\left(\sum y_{t-1}^2 + \frac{1}{\underline{V}_{22}} \right) - \left( \sum y_{t-1}\right)^2 }
+\end{align*}\]</span> Note that:</p>
+<p><span class="math display">\[ \lim_{\underline{V}_{22}\rightarrow\infty} \frac{1}{\underline{V}_{22}}=0\]</span></p>
+<p>Therefore we obtain: <span class="math display">\[\begin{align*}
+\mathbb{V}ar\left(\alpha|Y,X,\sigma^2\right) &amp;= \frac{\overline{s}}{\overline{\nu}-2}\underline{V}_{22}\\[1ex]
+\lim_{\underline{V}_{22}\rightarrow\infty}\mathbb{V}ar\left(\alpha|Y,X,\sigma^2\right) &amp;= \frac{\overline{s}}{\overline{\nu}-2} \frac{T + \frac{1}{\underline{V}_{11}}}{ \left( T + \frac{1}{\underline{V}_{11}} \right)\left(\sum y_{t-1}^2  \right) - \left( \sum y_{t-1}\right)^2 }
+\end{align*}\]</span> Note that the result above does not depend on the prior hyper-parameters of parameter <span class="math inline">\(\alpha\)</span>. Additionally, when the prior variances go to infinity: <span class="math display">\[\begin{align*}
+\lim_{\underline{V}_{11},\underline{V}_{22}\rightarrow\infty}\mathbb{V}ar\left(\alpha|Y,X,\sigma^2\right) &amp;= \frac{\overline{s}}{\overline{\nu}-2} \left( \left(\sum y_{t-1}^2  \right) - \frac{1}{T}\left( \sum y_{t-1}\right)^2  \right)^{-1} \approx \mathbb{V}ar_{as}\left(\hat\alpha\right),
+\end{align*}\]</span> the posterior variance of parameter <span class="math inline">\(\alpha\)</span> converges to the asymptotic variance of the MLE of this parameter. This expression does not depend on the prior hyper-parameters at all.</p>
+<p>Moving on to the posterior expected value of <span class="math inline">\(\alpha\)</span>… Define matrix:</p>
+<p><span class="math display">\[
+\tilde{A} = X'Y + \underline{V}^{-1}\underline{A} = \begin{bmatrix} \sum y_t + \frac{\underline{A}_{11}}{\underline{V}_{11}} \\ \sum y_t y_{t-1} + \frac{\underline{A}_{21}}{\underline{V}_{22}} \end{bmatrix}
+\]</span></p>
+<p>Then the posterior mean of <span class="math inline">\(\alpha\)</span> is equal to: <span class="math display">\[\begin{align*}
+\overline{A}_{21} &amp;= \overline{V}_{21}\tilde{A}_{11} + \overline{V}_{22}\tilde{A}_{21}\\
+&amp;= \left( \frac{-\sum y_{t-1}}{ \left( T + \frac{1}{\underline{V}_{11}} \right)\left(\sum y_{t-1}^2 + \frac{1}{\underline{V}_{22}} \right) - \left( \sum y_{t-1}\right)^2 } \right)
+\left( \sum y_t + \frac{\underline{A}_{11}}{\underline{V}_{11}} \right)\\
+&amp;\qquad\qquad+ \left( \frac{T + \frac{1}{\underline{V}_{11}}}{ \left( T + \frac{1}{\underline{V}_{11}} \right)\left(\sum y_{t-1}^2 + \frac{1}{\underline{V}_{22}} \right) - \left( \sum y_{t-1}\right)^2 } \right)\left( \sum y_t y_{t-1} + \frac{\underline{A}_{21}}{\underline{V}_{22}} \right)
+\end{align*}\]</span> And in the limit: <span class="math display">\[\begin{align*}
+\lim_{\underline{V}_{11}\rightarrow\infty}\mathbb{E}\left(\alpha|Y,X\right)
+&amp;=  \left( \frac{-\sum y_{t-1}}{ \left( T + \frac{1}{\underline{V}_{11}} \right)\left(\sum y_{t-1}^2  \right) - \left( \sum y_{t-1}\right)^2 } \right)
+\left( \sum y_t + \frac{\underline{A}_{11}}{\underline{V}_{11}} \right)\\
+&amp;\qquad\qquad+ \left( \frac{T + \frac{1}{\underline{V}_{11}}}{ \left( T + \frac{1}{\underline{V}_{11}} \right)\left(\sum y_{t-1}^2  \right) - \left( \sum y_{t-1}\right)^2 } \right)\left( \sum y_t y_{t-1}  \right)
+\end{align*}\]</span> it does not depend on <span class="math inline">\(\underline{A}_{21}\)</span> and <span class="math inline">\(\underline{V}_{22}\)</span>, the prior hyper-parameters for <span class="math inline">\(\alpha\)</span>. Additionally, when both of the prior variances go to infinity: <span class="math display">\[\begin{align*}
+\lim_{\underline{V}_{11},\underline{V}_{22}\rightarrow\infty}\mathbb{E}\left(\alpha|Y,X\right)
+&amp;=  \left( \frac{T \sum y_t y_{t-1}-(\sum y_{t-1})^2}{ T \left(\sum y_{t-1}^2  \right) - \left( \sum y_{t-1}\right)^2 } \right) = \hat\alpha
+\end{align*}\]</span> the posterior expected value of <span class="math inline">\(\alpha\)</span> converges to the MLE of this parameter.</p>
+</section>
+<section id="exercise-2.4.-marginal-posterior" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-2.4.-marginal-posterior">Exercise 2.4. Marginal posterior</h3>
+<blockquote class="blockquote">
+<p>What is the bivariate marginal posterior distribution of parameters <span class="math inline">\((\mu_0,\alpha_1)\)</span>, denoted by <span class="math inline">\(p(\mu_0,\alpha_1|Y,X)\)</span>? Describe intuitively how this distribution is obtained?</p>
+</blockquote>
+<p>This exercise could be answered following the solution provided in Chapter 4 of the textbook by Greenberg (2008), a compulsory reading.</p>
+<p>The joint posterior distribution of <span class="math inline">\(A\)</span> and <span class="math inline">\(\sigma^2\)</span> given data is the following normal-inverse gamma 2 distribution: <span class="math display">\[\begin{align*}
+p\left(A,\sigma^2|Y,X\right) &amp;= p\left(A|Y,X,\sigma^2\right) p\left(\sigma^2|Y,X\right) \\
+p\left(A|Y,X,\sigma^2\right) &amp;= \mathcal{N}_2\left( \overline{A}, \sigma^2 \overline{V} \right)\\
+p\left(\sigma^2|Y,X\right) &amp;= \mathcal{IG}2\left( \overline{s}, \overline{\nu} \right)
+\end{align*}\]</span> To compute the marginal posterior distribution of <span class="math inline">\(A\)</span> <span class="math inline">\(\sigma^2\)</span> needs to be integrated out from the joint posterior distribution: <span class="math display">\[\begin{align*}
+p\left(A|Y,X\right) &amp;= \int_0^{\infty}p\left(A,\sigma^2|Y,X\right) d\sigma^2 = \int_0^{\infty}p\left(A|Y,X,\sigma^2\right)p\left(\sigma^2|Y,X\right) d\sigma^2\\
+&amp;\propto \int_0^{\infty}
+\left(\sigma^2\right)^{\frac{\overline{\nu}+4}{2}}\exp\left\{-\frac{1}{2}\frac{1}{\sigma^2}\left[\left(A-\overline{A}\right)'\overline{V}^{-1}\left(A-\overline{A}\right) + \overline{s}\right]\right\}
+d\sigma^2
+\end{align*}\]</span> Let <span class="math inline">\(Q=\left(A-\overline{A}\right)'\overline{V}^{-1}\left(A-\overline{A}\right) + \overline{s}\)</span> and rewrite the expression above as: <span class="math display">\[\begin{align*}
+p\left(A|Y,X\right) &amp;\propto \int_0^{\infty}
+\left(\sigma^2\right)^{\frac{\overline{\nu}+4}{2}}\exp\left\{-\frac{1}{2}\frac{Q}{\sigma^2}\right\}
+d\sigma^2
+\end{align*}\]</span> Under the integral of the expression above we recognize a kernel of the inverse gamma 2 distribution. Since we know the pdf of this distribution, we also know its normalizing constant which gives us the solution to the integral (see slide 10 of Lecture 3): <span class="math display">\[\begin{align*}
+p\left(A|Y,X\right) &amp;\propto \Gamma\left(\frac{\overline{\nu}}{2}\right)2^{\frac{\overline{\nu}}{2}}Q^{-\frac{\overline{\nu}}{2}} \propto \left[\overline{s}+\left(A-\overline{A}\right)'\overline{V}^{-1}\left(A-\overline{A}\right)\right]^{-\frac{\overline{\nu}}{2}}
+\end{align*}\]</span> The last expression on the right-hand side above is equal to the kernel of the following Student’s t distribution: <span class="math display">\[\begin{align*}
+p\left(A|Y,X\right) &amp;= t\left( \overline{A}, \overline{V}, \overline{s}, \overline{\nu}-2 \right)
+\end{align*}\]</span></p>
+</section>
+</section>
+<section id="exercise-3-bayesian-estimation-in-r" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercise-3-bayesian-estimation-in-r">Exercise 3: Bayesian estimation in R</h2>
+<p>Consider the AR(1) model and the estimation procedures derived in <strong>Exercise 2</strong>.</p>
+<section id="exercise-3.1.-estimation-function" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-3.1.-estimation-function">Exercise 3.1. Estimation function</h3>
+<blockquote class="blockquote">
+<p>Write a function in R for the Bayesian estimation of the parameters of the model. The function should take as input:</p>
+<ul>
+<li><strong>a data vector</strong> containing all of the observations on the variable of interest,</li>
+<li><strong>the parameters</strong> of the prior distribution provided as a list object.</li>
+</ul>
+<p>The function should return as output:</p>
+<ul>
+<li><strong>a list object</strong> containing the values of the parameters characterising the posterior distribution.</li>
+</ul>
+</blockquote>
+<p>The R script of a proposed function is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ar1.posterior <span class="ot">=</span> <span class="cf">function</span>(y,priors){</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  T     <span class="ot">=</span> <span class="fu">nrow</span>(y)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  Y     <span class="ot">=</span> <span class="fu">as.matrix</span>(y[<span class="dv">2</span><span class="sc">:</span>T,])</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  X     <span class="ot">=</span> <span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="dv">1</span>,T <span class="sc">-</span> <span class="dv">1</span>),y[<span class="dv">1</span><span class="sc">:</span>(T <span class="sc">-</span> <span class="dv">1</span>),])</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  V.inv <span class="ot">=</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> X <span class="sc">+</span> priors<span class="sc">$</span>V</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  V     <span class="ot">=</span> <span class="fu">solve</span>(V.inv)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  A     <span class="ot">=</span> V <span class="sc">%*%</span> (<span class="fu">t</span>(X) <span class="sc">%*%</span> Y <span class="sc">+</span> <span class="fu">solve</span>(priors<span class="sc">$</span>V) <span class="sc">%*%</span> priors<span class="sc">$</span>A)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  s     <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">t</span>(Y) <span class="sc">%*%</span> Y <span class="sc">+</span> priors<span class="sc">$</span>s <span class="sc">+</span> <span class="fu">t</span>(priors<span class="sc">$</span>A) <span class="sc">%*%</span> <span class="fu">solve</span>(priors<span class="sc">$</span>V) <span class="sc">%*%</span> priors<span class="sc">$</span>A </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>             <span class="sc">-</span> <span class="fu">t</span>(A) <span class="sc">%*%</span> V.inv <span class="sc">%*%</span> A)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  nu    <span class="ot">=</span> T <span class="sc">-</span> <span class="dv">1</span> <span class="sc">+</span> priors<span class="sc">$</span>nu</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  output <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">V  =</span> V,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">A  =</span> A,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">s  =</span> s,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">nu =</span> nu</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(output)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exercise-3.2.-sampling-random-draws-from-the-posterior" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-3.2.-sampling-random-draws-from-the-posterior">Exercise 3.2. Sampling random draws from the posterior</h3>
+<blockquote class="blockquote">
+<p>Write a function in R for the Monte Carlo simulation of the posterior distribution of the parameters of the AR(1) model specified above. The function should take as input:</p>
+<ul>
+<li><strong>a list object</strong> containing the values of the parameters characterising the posterior distribution that is created by the function written in <strong>Exercise 3.1.</strong></li>
+</ul>
+<p>The function should return as output:</p>
+<ul>
+<li><strong>an <span class="math inline">\(\mathbf{S\times 3}\)</span> matrix</strong> containing <span class="math inline">\(S\)</span> draws from the joint posterior distribution of the parameters of the model.</li>
+</ul>
+</blockquote>
+<p>The R script of a proposed function is given below.</p>
+<p>Note that the line for <code>sigma2.posterior</code> samples draws of <span class="math inline">\(\sigma^2\)</span> en block and the following line uses vectorization technique implemented using function <code>lapply</code> to perform the sampling of <span class="math inline">\(A\)</span> without using a loop.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ar1.posterior.draws <span class="ot">=</span> <span class="cf">function</span>(S,posterior){</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  sigma2.posterior  <span class="ot">=</span> <span class="fu">as.matrix</span>(posterior<span class="sc">$</span>s<span class="sc">/</span><span class="fu">rchisq</span>(S,posterior<span class="sc">$</span>nu))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  A.posterior       <span class="ot">=</span> <span class="fu">simplify2array</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>S,<span class="cf">function</span>(i){</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    mvtnorm<span class="sc">::</span><span class="fu">rmvnorm</span>(<span class="dv">1</span>,<span class="at">mean=</span>posterior<span class="sc">$</span>A,<span class="at">sigma=</span>sigma2.posterior[i,]<span class="sc">*</span>posterior<span class="sc">$</span>V)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  output <span class="ot">=</span> <span class="fu">cbind</span>(<span class="fu">t</span>(A.posterior[<span class="dv">1</span>,,]),sigma2.posterior)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(output)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="exercise-4-empirical-analysis-of-australian-real-gross-domestic-product" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercise-4-empirical-analysis-of-australian-real-gross-domestic-product">Exercise 4: Empirical analysis of Australian real Gross Domestic Product</h2>
+<blockquote class="blockquote">
+<p>Consider a time series for Australian real GDP downloaded from the Australian Real-Time Macroeconomic Database that was analysed during . A csv file containing <span class="math inline">\(T=230\)</span> observations on the quarterly data from quarter 3 of 1959 to the last quarter of 2016 can be downloaded by clicking .</p>
+</blockquote>
+<section id="exercise-4.1." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-4.1.">Exercise 4.1.</h3>
+<blockquote class="blockquote">
+<p>Upload the data to the memory of R and transform it into a matrix with one column containing the natural logarithm of the original series. Transform this matrix into a object and specify the time stamps for the observations. Create a new object containing the annualized log-returns expressed in percentage points of the series using the following transformation: <span class="math inline">\(r_t = 400(rgdp_t - rgdp_{t-1})\)</span>, where <span class="math inline">\(rgdp_t\)</span> is the logarithm of the original time series. Plot both of the series in time series plots. Create autocorrelations graphs at lags from 1 to 20 for the both of the series. Interpret the content from the four graphs and discuss the evidence of what properties of the time series they include.</p>
+</blockquote>
+<p>The graphs for variable <span class="math inline">\(rgdp_t\)</span> in the first column above indicate that the variable is likely to exhibit unit-root nonstationarity potentially with a drift. The evidence for very high persistence resembling the autocorrelation patterns of a unit-root nonstationary process is given in the plot below. The upward trend visible in the data plot additionally indicates a potential drift in the process.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gdp_dwnld   <span class="ot">=</span> readabs<span class="sc">::</span><span class="fu">read_abs</span>(<span class="at">series_id =</span> <span class="st">"A2304402X"</span>)  <span class="co"># real GDP SA 1959 Q3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Finding URLs for tables corresponding to ABS series ID </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Attempting to download files from series ID , Australian National Accounts: National Income, Expenditure and Product</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading https://www.abs.gov.au/statistics/economy/national-accounts/australian-national-accounts-national-income-expenditure-and-product/latest-release/5206001_key_aggregates.xlsx</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Extracting data from downloaded spreadsheets</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Tidying data from imported ABS spreadsheets</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>gdp_tmp     <span class="ot">=</span> xts<span class="sc">::</span><span class="fu">xts</span>(<span class="fu">log</span>(gdp_dwnld<span class="sc">$</span>value), gdp_dwnld<span class="sc">$</span>date)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>gdp_tmp     <span class="ot">=</span> xts<span class="sc">::</span><span class="fu">to.quarterly</span>(gdp_tmp, <span class="at">name =</span> <span class="st">"gdp"</span>)[,<span class="dv">4</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>y       <span class="ot">=</span> <span class="fu">ts</span>(<span class="fu">as.matrix</span>(<span class="fu">log</span>(gdp_tmp)), <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1959</span>,<span class="dv">3</span>), <span class="at">frequency =</span> <span class="dv">4</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>r       <span class="ot">=</span> <span class="dv">400</span><span class="sc">*</span><span class="fu">diff</span>(y)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="fl">4.5</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">cex.axis =</span> <span class="fl">1.5</span>, <span class="at">cex.lab =</span> <span class="fl">1.5</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y,<span class="at">main =</span> <span class="st">""</span>, <span class="at">ylab=</span><span class="fu">expression</span>(rgdp[t]), <span class="at">xlab =</span> <span class="st">"time"</span>, <span class="at">col=</span><span class="st">"magenta"</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r,<span class="at">main=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="fu">expression</span>(<span class="dv">400</span><span class="sc">*</span>Delta<span class="sc">*</span>rgdp[t]), <span class="at">xlab=</span><span class="st">"time"</span>, <span class="at">col=</span><span class="st">"magenta"</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>FinTS<span class="sc">::</span><span class="fu">Acf</span>(y, <span class="at">lag.max=</span><span class="dv">20</span>, <span class="at">type=</span><span class="st">"correlation"</span>, <span class="at">col=</span><span class="st">"magenta"</span>, <span class="at">lwd=</span><span class="dv">4</span>, <span class="at">xlab=</span><span class="st">"years"</span>, <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>FinTS<span class="sc">::</span><span class="fu">Acf</span>(r, <span class="at">lag.max=</span><span class="dv">20</span>, <span class="at">type=</span><span class="st">"correlation"</span>, <span class="at">col=</span><span class="st">"magenta"</span>, <span class="at">lwd=</span><span class="dv">4</span>, <span class="at">xlab=</span><span class="st">"years"</span>, <span class="at">ylab=</span><span class="st">""</span>, <span class="at">main=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="regression_exercises_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Time series of annualized log-returns of the real GDP, <span class="math inline">\(r_t = 400\Delta rgdp_t\)</span>, has very different properties. It is visible in the data plot that the series oscillates around a positive constant value. This fact, together with the evidence of hardly any serial correlation from the autocorrelogram allows us to conclude that these log returns are unit-root stationary series. Therefore, it seems that the variable <span class="math inline">\(rgdp_t\)</span> is intgrated of order 1. Finally, the time series plot of the log-returns indicates higher volatility throughout the half of the sample period than in the second one.</p>
+</section>
+</section>
+<section id="exercise-4.2." class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercise-4.2.">Exercise 4.2.</h2>
+<blockquote class="blockquote">
+<p>Set the parameters of the natural-conjugate prior distribution and motivate the values that you choose. Use the computer codes you developed in to estimate the AR(1) model with a constant term for each of the series. Use the obtained draws from the posterior density to:</p>
+<ul>
+<li>Plot the Monte Carlo draws in trace plots. Comment on whether the algorithm converged to the stationary posterior distribution.</li>
+<li>Plot the histograms of the marginal posterior distributions for all of the parameters of both the models that you estimated. Comment on the shapes of the histograms and the distribution of the probability mass.</li>
+<li>Compute the sample means and sample standard deviations of the posterior draws for each of the estimated parameters. Interpret these values.</li>
+</ul>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>priors.y <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">A    =</span> <span class="fu">as.matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">V    =</span> <span class="fu">diag</span>(<span class="dv">2</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">s    =</span> <span class="dv">1</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nu   =</span> <span class="dv">3</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>priors.r <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">A    =</span> <span class="fu">as.matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">V    =</span> <span class="fu">diag</span>(<span class="dv">2</span>),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">s    =</span> <span class="dv">1</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">nu   =</span> <span class="dv">3</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>posterior.y         <span class="ot">=</span> <span class="fu">ar1.posterior</span>(y,priors.y)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>posterior.draws.y   <span class="ot">=</span> <span class="fu">ar1.posterior.draws</span>(<span class="at">S=</span><span class="dv">10000</span>,posterior.y)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>posterior.r         <span class="ot">=</span> <span class="fu">ar1.posterior</span>(r,priors.r)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>posterior.draws.r   <span class="ot">=</span> <span class="fu">ar1.posterior.draws</span>(<span class="at">S=</span><span class="dv">10000</span>,posterior.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The trace plots clearly indicate that the posterior draws for all of the parameters of the models hover around constant values, that is, the corresponding posterior means. No burn-in sample had to used for the algorithm to obtain convergence. This is the expected outcome of direct sampling from the posterior distributions in a known form.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="fl">4.5</span>,<span class="dv">2</span>,<span class="dv">2</span>),<span class="at">cex.axis=</span><span class="fl">1.5</span>, <span class="at">cex.lab=</span><span class="fl">1.5</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(posterior.draws.y[,<span class="dv">1</span>], <span class="at">main=</span><span class="fu">expression</span>(rgdp[t]),<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="fu">expression</span>(mu), <span class="at">col=</span><span class="st">"magenta"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(posterior.draws.r[,<span class="dv">1</span>], <span class="at">main=</span><span class="fu">expression</span>(<span class="dv">400</span><span class="sc">*</span>Delta<span class="sc">*</span>rgdp[t]),<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="st">""</span>, <span class="at">col=</span><span class="st">"magenta"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(posterior.draws.y[,<span class="dv">2</span>], <span class="at">main=</span><span class="st">""</span>,<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="fu">expression</span>(alpha[<span class="dv">1</span>]), <span class="at">col=</span><span class="st">"magenta"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(posterior.draws.r[,<span class="dv">2</span>], <span class="at">main=</span><span class="st">""</span>,<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="st">""</span>, <span class="at">col=</span><span class="st">"magenta"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(posterior.draws.y[,<span class="dv">3</span>], <span class="at">main=</span><span class="st">""</span>,<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="fu">expression</span>(sigma<span class="sc">^</span><span class="dv">2</span>), <span class="at">col=</span><span class="st">"magenta"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(posterior.draws.r[,<span class="dv">3</span>], <span class="at">main=</span><span class="st">""</span>,<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="st">""</span>, <span class="at">col=</span><span class="st">"magenta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="regression_exercises_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The figure below presents histograms of the marginal posterior distributions for the parameters of the models. The constant term and the autoregressive parameters of both of the models have bell-shaped distributions resembling the shape of t-distributed random variables, while the error term variances’ histograms are asymmetric to the right, clearly reflecting the shape of the inverse gamma 2 distributions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="fl">4.5</span>,<span class="dv">2</span>,<span class="dv">2</span>),<span class="at">cex.axis=</span><span class="fl">1.5</span>, <span class="at">cex.lab=</span><span class="fl">1.5</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior.draws.y[,<span class="dv">1</span>], <span class="at">main=</span><span class="fu">expression</span>(rgdp[t]),<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="fu">expression</span>(mu), <span class="at">col=</span><span class="st">"magenta"</span>,<span class="at">breaks=</span><span class="dv">50</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior.draws.r[,<span class="dv">1</span>], <span class="at">main=</span><span class="fu">expression</span>(<span class="dv">400</span><span class="sc">*</span>Delta<span class="sc">*</span>rgdp[t]),<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="st">""</span>, <span class="at">col=</span><span class="st">"magenta"</span>,<span class="at">breaks=</span><span class="dv">50</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior.draws.y[,<span class="dv">2</span>], <span class="at">main=</span><span class="st">""</span>,<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="fu">expression</span>(alpha[<span class="dv">1</span>]), <span class="at">col=</span><span class="st">"magenta"</span>,<span class="at">breaks=</span><span class="dv">50</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior.draws.r[,<span class="dv">2</span>], <span class="at">main=</span><span class="st">""</span>,<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="st">""</span>, <span class="at">col=</span><span class="st">"magenta"</span>,<span class="at">breaks=</span><span class="dv">50</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior.draws.y[,<span class="dv">3</span>], <span class="at">main=</span><span class="st">""</span>,<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="fu">expression</span>(sigma<span class="sc">^</span><span class="dv">2</span>), <span class="at">col=</span><span class="st">"magenta"</span>,<span class="at">breaks=</span><span class="dv">50</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior.draws.r[,<span class="dv">3</span>], <span class="at">main=</span><span class="st">""</span>,<span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="st">""</span>, <span class="at">col=</span><span class="st">"magenta"</span>,<span class="at">breaks=</span><span class="dv">55</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="regression_exercises_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The results below confirm the conclusions that could be formed about the location of the probability mass of the parameters. The posterior mean of the constant term of the model for variable <span class="math inline">\(rgdp_t\)</span> is small and point zero lays in a region of high concentration of the probability mass. For the same model, the autoregressive slope has the value of nearly one and the shape of the posterior distribution is typical for a unit-root non-stationary random variable. The non-stationarity is well documented by the results above, however, a hypothesis of non-zero drift does not find empirical support.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(posterior.draws.y,<span class="dv">2</span>,mean),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(posterior.draws.y,<span class="dv">2</span>,sd)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>),<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       [,1]   [,2]  [,3]
+[1,] 0.0003 1.0001 4e-03
+[2,] 0.0561 0.0225 4e-04</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(posterior.draws.r,<span class="dv">2</span>,mean),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(posterior.draws.r,<span class="dv">2</span>,sd)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>),<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       [,1]    [,2]   [,3]
+[1,] 0.2884 -0.0623 0.1549
+[2,] 0.0300  0.0630 0.0137</code></pre>
+</div>
+</div>
+<p>The autoregressive slope parameter for the model for the quarterly annualized log-returns has the posterior distribution concentrated near value zero with the posterior mean equal to -0.063 and the posterior standard deviation equal to 0.07. Therefore, this variable is clearly stationary, mean-reverting, and the average quarterly annualized log-return has value around 3.6 pp.</p>
+<section id="exercise-4.3." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-4.3.">Exercise 4.3.</h3>
+<blockquote class="blockquote">
+<p>Compute the fraction of the posterior draws of parameter <span class="math inline">\(\alpha_1\)</span> that are greater than 1 for both of the models. Confront these results with the histograms, posterior means and standard deviations of <span class="math inline">\(\alpha_1\)</span> for both of the models, and interpret these results. Comment on the Bayesian evidence in favour of the unit root hypothesis for each of the time series. Comment on the interpretations of the values of the constant term in both of the models in the context of your statements on unit-root stationarity of the considered time series.</p>
+</blockquote>
+<p>The table below reports also the posterior probabilities that parameter <span class="math inline">\(\alpha_1\)</span> has value greater than 1 for both of the models. These probabilities take values of 0.47 and 0 respectively and clearly confirm the statements regarding the unit-root non-stationarity of both of the variables. The former values indicates that no statistical test based on the estimates above would reject the hypothesis of unit-root in <span class="math inline">\(rgdp_t\)</span> while such a hypothesis would clearly be rejected for the log-returns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(posterior.draws.y[,<span class="dv">2</span>]<span class="sc">&gt;</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5008</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(posterior.draws.r[,<span class="dv">2</span>]<span class="sc">&gt;</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./regression.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bayesian Estimation of Linear Regression Model</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

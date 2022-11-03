@@ -1,14 +1,22 @@
 project:
   type: book
+  output-dir: docs
 
 book:
-  title: "Macroeconometrics: Lecture Notes"
-  author: "Tomasz Woźniak"
-  date: "19 October 2022"
-  chapters:
+  title: "Exercises in Macroeconometrics"
+  author: 
+  - name: "Tomasz Woźniak"
+    affiliations:
+      - University of Melbourne
+    orcid: 0000-0003-2212-2378
+
+  chapters:  
     - index.qmd
-    - regression.qmd
-    - references.qmd
+    - part: "Simple Linear Regression"
+      chapters:
+        - regression.qmd
+        - regression_exercises.qmd
+
 
 bibliography: references.bib
 

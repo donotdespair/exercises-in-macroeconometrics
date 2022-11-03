@@ -1,9 +1,14 @@
-# Welcome to Macroeconometrics {.unnumbered}
+# Welcome {.unnumbered}
 
-This is a Quarto book.
+## What's Macroeconometrics
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+Decision making at central banks, economic governance institutions, and consulting firms relies on advanced empirical analyses of economic data. This book facilitates working with a cutting-edge econometric methodology for empirical macroeconomic research. Topics covered include forecasting economic outcomes using large data sets, analysing the dynamic effects of structural shocks on business cycle and the labor market, and forecasting CO2 emissions for the 21st century. They provide evidence-based background for shaping economic policy of a country. Finally, the focus is on learn programming and project management skills that facilitate performing reproducible econometric analyses in [RStudio](https://www.rstudio.com/), [R](https://cran.r-project.org/), [Quarto](https://quarto.org/), [git](https://git-scm.com/), and [GitHub](https://GitHub.com/).
 
-```{r}
-1 + 1
-```
+
+## Online book
+
+This online book has been developed as lecture notes for a subject taught at the University of Melbourne, namely, [Macroeconometrics ECOM90007](https://handbook.unimelb.edu.au/2022/subjects/ecom90007).
+
+## Invitation to collaboration
+
+All the readers are invited to collaborate on the development of this resource. 

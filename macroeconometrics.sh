@@ -1,5 +1,5 @@
 
 quarto render
-quarto render --to pdf
+# quarto render --to pdf
 
 quarto publish
